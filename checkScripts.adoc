@@ -1,0 +1,58 @@
+= Check scripts in QML 
+
+(by Sitting Bugle . Please provide feedback to gru.framework@free.fr )
+
+The scripts are mostly a transformation of the __checkparallels__ script written by Jörn Eichler (heuchi).
+
+For sure these are clumsy codes (though I was a Java programmer in a former life
+I know nothing about QML, MuseScore concepts ... and Harmony!).
+I just try to have scripts that can help me when writing additional parts for a brassband (where I play the flügelhorn)
+
+I wanted to differentiate between  the search for 5th and 8th parallels and also to show notes that are "near" each other (see why below).
+when found there should be a colour change to these notes (and no pesky message) then we can modify the code (if necessary) and later have a 
+script that turns the colour back to black.
+
+== checkQuint
+
+This is a transformation of the "checkparallels" script that checks only for parallels 5th. It just changes the colour of the notes
+and shows no specific message with these notes.
+
+Now a comment about that: as with every principle its application should be carefully weighed.
+There are numerous parallels 5th in compositions by numerous well known  musicians  so we should listen to the result before getting rid of
+these parallels.
+
+For instance: when a short burst of 5th parallels apply to "transitionnal" flow of notes in a melody it could be perfectly fine!
+
+== checkOct
+
+This is a transformation of the "checkparallels" script that checks only for parallels 8th. It just changes the colour of the notes
+and shows no specific message with these notes.
+
+Now a comment about that: as with every principle its application should be carefully weighed.
+
+- different parts could play the same melody (or part of it) so if the difference in pitch is zero There is no coloring.
+
+- when writing parts for a brassband it is perfectly possible to have parallels 8th. Multiple reasons for that: the score is written for different 
+instruments but they may not be present during a  performance (that happens often for small brassbands). 
+Many instruments that provide rythm (barytone, bass, contrabass) may have to reinforce together some parts of the rythmic melody.
+
+== checkNear
+
+This is a fairly different feature.
+
+It just shows when notes played together are "neighbors" (difference in pitch is around 1 or 2). 
+This is not necessarily a default but it helps to check for some dissonances (that may be perfectly fine!).
+
+A more sophisticated check should:
+
+- check for some sophisticated harmonic potential dissonnances.
+
+- be applied to chords (I may write something for that)
+
+== backToBlack
+
+Here the script is a transformation of the "colornotes" script.
+
+It just goes through the notes and if the colour has been modified by a previous "check" script it turns it back to black.
+
+
