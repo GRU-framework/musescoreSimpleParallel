@@ -5,3 +5,5 @@ just a modification of existing scripts for  detection
 - for parallels 8ves only (just coloring notes without a message)
 - for neightboring notes played together (see doc)
 - back to black colors (for notes where the color was modified)
+
+  other scripts dealing with brass positions have been added see "scriptsPositions" documentation (in French sorry!)
