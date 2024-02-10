@@ -1,0 +1,42 @@
+= Scripts QML pour positions
+
+(by Sitting Bugle . Please provide feedback to gru.framework@free.fr . Language is French because features are specific to French "beaux arts" brassbands)
+
+Ces scripts sont des transformations des scripts de position écrits par Tony Babecka et autres (qu'ils soient remerciés!).
+
+Sauf qu'ici les positions des instruments à pistons sont représentés par des sigles au lieu de numéros 
+Bien entendu on peut se référer aux scripts d'origine si on souhaite conserver le standard avec des chiffres.
+
+Pour les trombones les positions de la coulisse suivent un code différent: 
+
+ - en haut: c'est le décalage par demi-tons à partir de la position marquée 0 (au lieu de 1 en position standard)
+
+ - en bas le numéro de position standard.
+
+Il faudrait que l'on puisse déclencher les scripts sur un instrument particulier sur une fenêtre générale (par sélection).
+Pour le moment on ne peut le faire que sur une fenêtre dédiée à la partie de l'instrument.
+
+Manque un script pour les pichottes en MIb (à écrire).
+
+== pistonsTrompette
+
+Script pour trompette, cornet, bugle
+
+== pistonsBasse
+
+Script pour saxhorn baryton, basse et euphoniums
+
+== pistonsSouba
+
+Script pour les contre-basses (souba, hélicon, tubas divers)
+
+== positionsTrombone
+
+Script pour afficher les positions trombone
+
+== Bugs connus
+
+Quand deux notes sont liées pour prolongation  le script affiche deux positions alors qu'il ne devrait en afficher qu'une
+
+
+
