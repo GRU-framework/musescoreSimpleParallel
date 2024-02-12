@@ -7,11 +7,13 @@ Ces scripts sont des transformations des scripts de position écrits par Tony Ba
 Sauf qu'ici les positions des instruments à pistons sont représentés par des sigles au lieu de numéros 
 Bien entendu on peut se référer aux scripts d'origine si on souhaite conserver le standard avec des chiffres.
 
+Les prolongations de notes sont marquées "–". Les accords (ça arrive) donnent des doigtés en colonne.
+
 Pour les trombones les positions de la coulisse suivent un code différent: 
 
- - en haut: c'est le décalage par demi-tons à partir de la position marquée 0 (au lieu de 1 en position standard)
+ - en haut (position "fanfare"): c'est le décalage par demi-tons à partir de la position marquée 0 (au lieu de 1 en position standard)
 
- - en bas le numéro de position standard.
+ - en bas (position "classique") :  le numéro de position standard.
 
 Il faudrait que l'on puisse déclencher les scripts sur un instrument particulier sur une fenêtre générale (par sélection).
 Pour le moment on ne peut le faire que sur une fenêtre dédiée à la partie de l'instrument.
@@ -32,11 +34,19 @@ Script pour les contre-basses (souba, hélicon, tubas divers)
 
 == positionsTrombone
 
-Script pour afficher les positions trombone
+Script pour afficher les positions trombone en combinant les positions "classiques" et "fanfare"
+
+== positionsTromboneClassique
+
+Script pour afficher les positions trombone "classiques" 
+
+== positionsTromboneFanfare
+
+Script pour afficher les positions trombone "Fanfare" 
 
 == Bugs connus
 
-Quand deux notes sont liées pour prolongation  le script affiche deux positions alors qu'il ne devrait en afficher qu'une
+Ne gère pas les voix multiples... à faire!
 
 
 

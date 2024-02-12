@@ -50,39 +50,39 @@ MuseScore {
          //midi = midi-20;
          // for 4 valves, usually 1+3 = 4
          switch (midi){
-            case 10: return "⨪⨪⨪\u00A0"; break;
-            case 11: return "⨪Ī⨪\u00A0"; break;
-            case 12: return "Ī⨪⨪\u00A0"; break;
-            case 13: return "⨪⨪Ī\u00A0"; break;
-            case 14: return "⨪ĪĪ\u00A0"; break;
-            case 15: return "Ī⨪Ī\u00A0"; break;
+            case 10: return "iii\u00A0"; break;
+            case 11: return "iĪi\u00A0"; break;
+            case 12: return "Īii\u00A0"; break;
+            case 13: return "iiĪ\u00A0"; break;
+            case 14: return "iĪĪ\u00A0"; break;
+            case 15: return "ĪiĪ\u00A0"; break;
             case 16: return "ĪĪĪ\u00A0"; break; //Bb 2nd Line
-            case 17: return "⨪⨪⨪\u00A0"; break; //B
-            case 18: return "⨪Ī⨪\u00A0"; break; //C
-            case 19: return "Ī⨪⨪\u00A0"; break; //C#
-            case 20: return "⨪⨪Ī\u00A0"; break; //D
-            case 21: return "⨪ĪĪ\u00A0"; break; //Eb
-            case 22: return "Ī⨪Ī\u00A0"; break; //E
+            case 17: return "iii\u00A0"; break; //B
+            case 18: return "iĪi\u00A0"; break; //C
+            case 19: return "Īii\u00A0"; break; //C#
+            case 20: return "iiĪ\u00A0"; break; //D
+            case 21: return "iĪĪ\u00A0"; break; //Eb
+            case 22: return "ĪiĪ\u00A0"; break; //E
             case 23: return "ĪĪĪ\u00A0"; break; //F
-            case 24: return "Ī⨪⨪\u00A0"; break; //F#
-            case 25: return "⨪⨪Ī\u00A0"; break; //G
-            case 26: return "⨪ĪĪ\u00A0"; break; //G#
-            case 27: return "Ī⨪Ī\u00A0"; break; //A
+            case 24: return "Īii\u00A0"; break; //F#
+            case 25: return "iiĪ\u00A0"; break; //G
+            case 26: return "iĪĪ\u00A0"; break; //G#
+            case 27: return "ĪiĪ\u00A0"; break; //A
             case 28: return "ĪĪĪ\u00A0"; break; //Bb
-            case 29: return "⨪⨪Ī\u00A0"; break;
-            case 30: return "⨪ĪĪ\u00A0"; break;
-            case 31: return "Ī⨪Ī\u00A0"; break;
+            case 29: return "iiĪ\u00A0"; break;
+            case 30: return "iĪĪ\u00A0"; break;
+            case 31: return "ĪiĪ\u00A0"; break;
             case 32: return "ĪĪĪ\u00A0"; break;
-            case 33: return "⨪ĪĪ\u00A0"; break;
-            case 34: return "Ī⨪Ī\u00A0"; break;
+            case 33: return "iĪĪ\u00A0"; break;
+            case 34: return "ĪiĪ\u00A0"; break;
             case 35: return "ĪĪĪ\u00A0"; break;
-            case 36: return "Ī⨪⨪\u00A0"; break;
-            case 37: return "⨪⨪Ī\u00A0"; break;
-            case 38: return "⨪ĪĪ\u00A0"; break;
-            case 39: return "Ī⨪Ī\u00A0"; break;
+            case 36: return "Īii\u00A0"; break;
+            case 37: return "iiĪ\u00A0"; break;
+            case 38: return "iĪĪ\u00A0"; break;
+            case 39: return "ĪiĪ\u00A0"; break;
             case 40: return "ĪĪĪ\u00A0"; break;
             case 41: return "#2 or b12"; break;
-            case 42: return "⨪ĪĪ\u00A0"; break;
+            case 42: return "iĪĪ\u00A0"; break;
 
 
 
@@ -135,9 +135,27 @@ MuseScore {
       var textold = "xxx";
       while (cursor.segment) {
          if (cursor.element && cursor.element.type == Element.CHORD) {
-            var text  = newElement(Element.LYRICS)
-            text.text = griff(cursor.element.notes[0].pitch) + CrLf
-                     ;
+            var text  = newElement(Element.LYRICS) ;
+ 
+            //text.setProperty(Sid.lyricsEvenFontStyle,FontStyle.UnderLine) ;
+            //text.setProperty(StyledProperty.lyricsOddFontStyle,FontStyle.UnderLine) ;
+            var notes = cursor.element.notes ;
+             //text.text = "":
+            //text.text = griff(notes[0].pitch) + CrLf ;
+            for( var ix =  notes.length ; ix > 0 ; ix--) {
+                var curnote = notes[ix-1] ;
+	     //  si la note est une prolongation ne rien marquer
+	        if( curnote.tieBack == undefined ) {
+                   if (ix == notes.length ) {
+			   text.text += griff(curnote.pitch)  ;
+                   } else {
+		       text.text += "\n" + griff(curnote.pitch)  ;
+                   }
+                } else {
+                 text.text += "—"  ;
+                } 
+            }
+
             //text.offsetY = 9;
             if (text.text != textold) cursor.add(text);
             textold = text.text;

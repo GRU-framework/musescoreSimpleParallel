@@ -27,12 +27,12 @@ import MuseScore 3.0
 MuseScore {
    version: "3.0"
    description: "Positions deTrombone pour fanfares "
-   menuPath: 'Plugins.Positions trombone'
+   menuPath: 'Plugins.Positions trombone fanfare'
    id: slidePositions
 
    Component.onCompleted : {
       if (mscoreMajorVersion >= 4) {
-        slidePositions.title = "Positions Trombone";
+        slidePositions.title = "Positions Trombone Fanfare" ;
 	//slidePositions.thumbnailName = "BoneSlide.png";
         slidePositions.categoryCode = "Brass Fingerings/Slide";
       }
@@ -50,35 +50,35 @@ MuseScore {
          //midi = midi-20;
          // for 4 valves, usually 1+3 = 4
          switch (midi){
-         case 23: return "2\u00BD\n6"; break;//F
-         case 24: return "2\n5"; break;//Gb
-	case 25: return "1\u00BD\n4"; break;//G
-	case 26: return "1\n3"; break;//Ab
-	case 27: return "\u00BD\n2"; break;//A
-	case 28: return "0\n1"; break;//Bb 2nd Line
-	case 29: return "3\n7"; break;//B
-	case 30: return "2\u00BD\n6"; break;//C
-	case 31: return "2\n5"; break;//Db
-	case 32: return "1\u00BD\n4"; break;//D
-	case 33: return "1\n3"; break;//Eb            
-	case 34: return "\u00BD\n2"; break;//E
-            case 35: return "0\n1"; break;//F
-            case 36: return "2\n5"; break;//Gb
-            case 37: return "1\u00BD\n4"; break;//G
-            case 38: return "1\n3"; break;//Ab
-            case 39: return "\u00BD\n2"; break;//A
-            case 40: return "0\n1"; break;//Bb Top Staff Bass
-            case 41: return "1\u00BD\n4"; break;//B
-            case 42: return "1\n3"; break;//C
-            case 43: return "\u00BD\n2"; break;//C#
-            case 44: return "0\n1"; break;//D
-            case 45: return "1\n3"; break;
-            case 46: return "\u00BD\n2"; break;
-            case 47: return "0\n1"; break;
-            case 48: return "1\n3"; break;
-            case 49: return "\u00BD\n2"; break;
-            case 50: return "1\n3"; break;
-            case 51: return "0\n1"; break;//Bb Above Staff Bass
+         case 23: return "2\u00BD"; break;//F
+         case 24: return "2"; break;//Gb
+	case 25: return "1\u00BD"; break;//G
+	case 26: return "1"; break;//Ab
+	case 27: return "\u00BD"; break;//A
+	case 28: return "0"; break;//Bb 2nd Line
+	case 29: return "3"; break;//B
+	case 30: return "2\u00BD"; break;//C
+	case 31: return "2"; break;//Db
+	case 32: return "1\u00BD"; break;//D
+	case 33: return "1"; break;//Eb            
+	case 34: return "\u00BD"; break;//E
+            case 35: return "0"; break;//F
+            case 36: return "2"; break;//Gb
+            case 37: return "1\u00BD"; break;//G
+            case 38: return "1"; break;//Ab
+            case 39: return "\u00BD"; break;//A
+            case 40: return "0"; break;//Bb Top Staff Bass
+            case 41: return "1\u00BD"; break;//B
+            case 42: return "1"; break;//C
+            case 43: return "\u00BD"; break;//C#
+            case 44: return "0"; break;//D
+            case 45: return "1"; break;
+            case 46: return "\u00BD"; break;
+            case 47: return "0"; break;
+            case 48: return "1"; break;
+            case 49: return "\u00BD"; break;
+            case 50: return "1"; break;
+            case 51: return "0"; break;//Bb Above Staff Bass
             default: return "";			
          }
       }

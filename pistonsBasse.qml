@@ -50,39 +50,39 @@ MuseScore {
          //midi = midi-20;
          // for 4 valves, usually 1+3 = 4
          switch (midi){
-            case 22: return "⨪⨪⨪\u00A0"; break;
-            case 23: return "⨪Ī⨪\u00A0"; break;
-            case 24: return "Ī⨪⨪\u00A0"; break;
-            case 26: return "⨪⨪Ī\u00A0"; break;
-            case 26: return "⨪ĪĪ\u00A0"; break;
-            case 27: return "Ī⨪Ī\u00A0"; break;
+            case 22: return "iii\u00A0"; break;
+            case 23: return "iĪi\u00A0"; break;
+            case 24: return "Īii\u00A0"; break;
+            case 26: return "iiĪ\u00A0"; break;
+            case 26: return "iĪĪ\u00A0"; break;
+            case 27: return "ĪiĪ\u00A0"; break;
             case 28: return "ĪĪĪ\u00A0"; break; //Bb 2nd Line
-            case 29 : return "⨪⨪⨪\u00A0"; break; //B
-            case 30: return "⨪Ī⨪\u00A0"; break; //C
-            case 31: return "Ī⨪⨪\u00A0"; break; //C#
-            case 32: return "⨪⨪Ī\u00A0"; break; //D
-            case 33: return "⨪ĪĪ\u00A0"; break; //Eb
-            case 34: return "Ī⨪Ī\u00A0"; break; //E
+            case 29 : return "iii\u00A0"; break; //B
+            case 30: return "iĪi\u00A0"; break; //C
+            case 31: return "Īii\u00A0"; break; //C#
+            case 32: return "iiĪ\u00A0"; break; //D
+            case 33: return "iĪĪ\u00A0"; break; //Eb
+            case 34: return "ĪiĪ\u00A0"; break; //E
             case 35: return "ĪĪĪ\u00A0"; break; //F
-            case 36: return "Ī⨪⨪\u00A0"; break; //F#
-            case 37: return "⨪⨪Ī\u00A0"; break; //G
-            case 38: return "⨪ĪĪ\u00A0"; break; //G#
-            case 39: return "Ī⨪Ī\u00A0"; break; //A
+            case 36: return "Īii\u00A0"; break; //F#
+            case 37: return "iiĪ\u00A0"; break; //G
+            case 38: return "iĪĪ\u00A0"; break; //G#
+            case 39: return "ĪiĪ\u00A0"; break; //A
             case 40: return "ĪĪĪ\u00A0"; break; //Bb
-            case 41: return "⨪⨪Ī\u00A0"; break;
-            case 42: return "⨪ĪĪ\u00A0"; break;
-            case 43: return "Ī⨪Ī\u00A0"; break;
+            case 41: return "iiĪ\u00A0"; break;
+            case 42: return "iĪĪ\u00A0"; break;
+            case 43: return "ĪiĪ\u00A0"; break;
             case 44: return "ĪĪĪ\u00A0"; break;
-            case 45: return "⨪ĪĪ\u00A0"; break;
-            case 46: return "Ī⨪Ī\u00A0"; break;
+            case 45: return "iĪĪ\u00A0"; break;
+            case 46: return "ĪiĪ\u00A0"; break;
             case 47: return "ĪĪĪ\u00A0"; break;
-            case 48: return "Ī⨪⨪\u00A0"; break;
-            case 49: return "⨪⨪Ī\u00A0"; break;
-            case 50: return "⨪ĪĪ\u00A0"; break;
-            case 51: return "Ī⨪Ī\u00A0"; break;
+            case 48: return "Īii\u00A0"; break;
+            case 49: return "iiĪ\u00A0"; break;
+            case 50: return "iĪĪ\u00A0"; break;
+            case 51: return "ĪiĪ\u00A0"; break;
             case 52: return "ĪĪĪ\u00A0"; break;
             case 53: return "#2 or b12"; break;
-            case 54: return "⨪ĪĪ\u00A0"; break;
+            case 54: return "iĪĪ\u00A0"; break;
 //===================================
 //            //case 22: return "iii"; break;
 //            case 23: return "iTi"; break;
@@ -136,8 +136,27 @@ MuseScore {
       while (cursor.segment) {
          if (cursor.element && cursor.element.type == Element.CHORD) {
             var text  = newElement(Element.LYRICS)
-            text.text = griff(cursor.element.notes[0].pitch) + CrLf
-                     ;
+             //text.text = "":
+            //text.text = griff(notes[0].pitch) + CrLf ;
+            //text.setProperty(Sid.lyricsEvenFontStyle,FontStyle.UnderLine) ;
+            //text.setProperty(StyledProperty.lyricsOddFontStyle,FontStyle.UnderLine) ;
+            var notes = cursor.element.notes ;
+             //text.text = "":
+            //text.text = griff(notes[0].pitch) + CrLf ;
+            for( var ix =  notes.length ; ix > 0 ; ix--) {
+                var curnote = notes[ix-1] ;
+	     //  si la note est une prolongation ne rien marquer
+	        if( curnote.tieBack == undefined ) {
+                   if (ix == notes.length ) {
+			   text.text += griff(curnote.pitch)  ;
+                   } else {
+		       text.text += "\n" + griff(curnote.pitch)  ;
+                   }
+                } else {
+                 text.text += "—"  ;
+                } 
+            }
+
             //text.offsetY = 9;
             if (text.text != textold) cursor.add(text);
             textold = text.text;
@@ -147,7 +166,7 @@ MuseScore {
          cursor.next();
       }
       
-      curScore.endCmd()
+      curScore.endCmd();
       quit();
    }
 }

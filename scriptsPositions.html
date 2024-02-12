@@ -742,16 +742,17 @@ asciidoc.install();
 <div class="paragraph"><p>Ces scripts sont des transformations des scripts de position écrits par Tony Babecka et autres (qu&#8217;ils soient remerciés!).</p></div>
 <div class="paragraph"><p>Sauf qu&#8217;ici les positions des instruments à pistons sont représentés par des sigles au lieu de numéros
 Bien entendu on peut se référer aux scripts d&#8217;origine si on souhaite conserver le standard avec des chiffres.</p></div>
+<div class="paragraph"><p>Les prolongations de notes sont marquées "–". Les accords (ça arrive) donnent des doigtés en colonne.</p></div>
 <div class="paragraph"><p>Pour les trombones les positions de la coulisse suivent un code différent:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-en haut: c&#8217;est le décalage par demi-tons à partir de la position marquée 0 (au lieu de 1 en position standard)
+en haut (position "fanfare"): c&#8217;est le décalage par demi-tons à partir de la position marquée 0 (au lieu de 1 en position standard)
 </p>
 </li>
 <li>
 <p>
-en bas le numéro de position standard.
+en bas (position "classique") :  le numéro de position standard.
 </p>
 </li>
 </ul></div>
@@ -781,20 +782,32 @@ Pour le moment on ne peut le faire que sur une fenêtre dédiée à la partie de
 <div class="sect1">
 <h2 id="_positionstrombone">positionsTrombone</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Script pour afficher les positions trombone</p></div>
+<div class="paragraph"><p>Script pour afficher les positions trombone en combinant les positions "classiques" et "fanfare"</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_positionstromboneclassique">positionsTromboneClassique</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Script pour afficher les positions trombone "classiques"</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_positionstrombonefanfare">positionsTromboneFanfare</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Script pour afficher les positions trombone "Fanfare"</p></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_bugs_connus">Bugs connus</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Quand deux notes sont liées pour prolongation  le script affiche deux positions alors qu&#8217;il ne devrait en afficher qu&#8217;une</p></div>
+<div class="paragraph"><p>Ne gère pas les voix multiples&#8230; à faire!</p></div>
 </div>
 </div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-02-10 22:00:40 CET
+Last updated 2024-02-12 08:57:15 CET
 </div>
 </div>
 </body>
