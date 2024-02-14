@@ -1,0 +1,73 @@
+= scripts QML  de contrôle
+
+(par Sitting Bugle . Merci d'envoyer commentaires et suggestions à gru.framework@free.fr )
+
+Ces scripts sont des transformations de __checkparallels__ écrit par  Jörn Eichler (heuchi) et autres (qu'ils soient remerciés).
+
+Ce sont des codes bricolés car la documentation de MuseScore est indigente et les langages de script non typés sont
+particulièrement difficile à mettre à jour quand on ne sait pas de quoi on parle! (je viens de Java).
+
+J'ai tenté de mettre en place des utilitaires qui m'aident à faire des arrangements pour fanfare
+(perso je joue du bugle).
+
+J'ai voulu transformer le script original parce que je voulais différencier la recherche des quintes et des octaves parallèles.
+Ensuite faire des modifications sur ma partition et remettre ensuite toutes les notes en couleur noire.
+J'ai ajouté un autre script qui me signale les notes "voisines" dans un accord (voir ci-dessous).
+
+Question importante: on fait quoi avec ces indications?
+
+Comme toujours: "Appuyez-vous sur vos principes ils finiront bien par céder!" (Oscar Wilde).
+
+== checkQuint
+
+Transformation de "checkParallels" pour détecter les quintes consécutives.
+Ça ne fait que changer les notes impliquées (les messages intempestifs ont été supprimés).
+
+
+Comme pour tout principe il faut ensuite bien regarder si ce parallélisme est nocif ou pas.
+Bien écouter le résultat.
+
+Des ouvrages d'harmonies disent que c'est strictement interdit.
+Pourtant on en trouve dans bien des compositions écrites par d'éminents musiciens!
+
+Donc faite confiance à votre oreille et aux effets que vous recherchez.
+(par ex. trouver des quintes consécutives dans une courte transition mélodique est parfaitement possible).
+
+
+== checkOct
+
+Même chose que pour le script "CheckQuint" mais ici pour des octaves consécutives.
+
+Si on trouve des octaves parallèles dans du Mozart ça prouve que vous n'irez pas en enfer si vous les tolérez
+(d'accord vous n'êtes pas Mozart!). Pour renforcer un effet rythmique ou dramatique c'est tout à fait possible.
+
+Modification du script d'origine : si deux instruments jouent la même mélodie le script ne dit rien!
+
+== checkNear
+
+Ici le principe est tout à fait différent: on ne cherche pas des parallélisme.
+
+Le script tente de montrer que deux notes "voisines" sont jouées en même temps (différence de 1 ou 2 demi-tons).
+
+C'est grave docteur? Absolument pas!
+Mais de temps en temps ça permet de détecter une dissonance qui n'est pas résolue par la suite (en particulier sur des notes longues).
+
+
+Il faudrait perfectionner ce script pour chercher d'autres accords potentiellement foireux (en tenant compte de la tonalité par ex.).
+Il faudrait améliorer le script pour qu'il examine toutes les notes des accords.
+
+
+== backToBlack
+
+Ici le script est une transformation du code de "colornotes"
+
+On parcours la partition pour chercher les notes qui ont été coloriées par les scripts précédents et les remet en noir.
+
+
+== Bugs connus
+
+-  Les accords ne sont pas analysés!
+
+- Les parties ne comportant pas de vraies notes (batterie par ex.) sont prises en compte alors que ce ne devrait pas être le cas!
+
+
