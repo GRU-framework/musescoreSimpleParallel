@@ -50,35 +50,43 @@ MuseScore {
          //midi = midi-20;
          // for 4 valves, usually 1+3 = 4
          switch (midi){
-         case 23: return "2\u00BD"; break;//F
-         case 24: return "2"; break;//Gb
-	case 25: return "1\u00BD"; break;//G
-	case 26: return "1"; break;//Ab
-	case 27: return "\u00BD"; break;//A
-	case 28: return "0"; break;//Bb 2nd Line
-	case 29: return "3"; break;//B
-	case 30: return "2\u00BD"; break;//C
-	case 31: return "2"; break;//Db
-	case 32: return "1\u00BD"; break;//D
-	case 33: return "1"; break;//Eb            
-	case 34: return "\u00BD"; break;//E
-            case 35: return "0"; break;//F
-            case 36: return "2"; break;//Gb
-            case 37: return "1\u00BD"; break;//G
-            case 38: return "1"; break;//Ab
-            case 39: return "\u00BD"; break;//A
-            case 40: return "0"; break;//Bb Top Staff Bass
-            case 41: return "1\u00BD"; break;//B
-            case 42: return "1"; break;//C
-            case 43: return "\u00BD"; break;//C#
-            case 44: return "0"; break;//D
-            case 45: return "1"; break;
-            case 46: return "\u00BD"; break;
-            case 47: return "0"; break;
-            case 48: return "1"; break;
-            case 49: return "\u00BD"; break;
-            case 50: return "1"; break;
-            case 51: return "0"; break;//Bb Above Staff Bass
+         case 22: return "3" ; break ; //Fa#
+         case 23: return "2\u00BD"; break;//Sol
+         case 24: return "2"; break;//Lab
+	case 25: return "1\u00BD≿"; break;//La
+	case 26: return "1"; break;//Sib
+	case 27: return "\u00BD"; break;//Si
+	case 28: return "0"; break;//DO
+	case 29: return "3≿"; break;//Do#
+	case 30: return "2\u00BD≿"; break;//Ré
+	case 31: return "2"; break;//Mib
+	case 32: return "1\u00BD≿"; break;//Mi
+	case 33: return "1"; break;//Fa
+	case 34: return "\u00BD"; break;//Fa#
+            case 35: return "0"; break;//Sol
+            case 36: return "2"; break;//Lab
+            case 37: return "1\u00BD≿"; break;//La
+            case 38: return "1"; break;//Sib
+            case 39: return "\u00BD"; break;//Si
+            case 40: return "0"; break;//Do
+            case 41: return "1\u00BD"; break;//D0#
+            case 42: return "1"; break;//Ré
+            case 43: return "\u00BD"; break;//Mib
+            case 44: return "0"; break;//Mi
+            case 45: return "1≿"; break; //Fa
+            case 46: return "\u00BD"; break;//Fa#
+            case 47: return "0"; break;//SOL
+            case 48: return "2"; break;// Lab
+            case 49: return "1\u00BD≿"; break;// La
+            case 50: return "1"; break; //Sib 
+            case 51: return "\u00BD"; break;//Si
+            case 52: return "0"; break;//Do
+            case 53: return "\u00BD"; break;//Do #
+            case 54: return "0"; break; //Ré
+            case 53: return "\u00BD"; break;//Mib
+            case 56: return "0"; break;//Mi
+            case 57: return "1"; break;//Fa
+            case 58: return "\u00BD"; break;//Fa #
             default: return "";			
          }
       }

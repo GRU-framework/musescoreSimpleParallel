@@ -49,39 +49,39 @@ MuseScore {
          //midi = midi-20;
          // for 4 valves, usually 1+3 = 4
          switch (midi){
-            case 34: return "iii\u00A0"; break;
-            case 35: return "iĪi\u00A0"; break;
-            case 36: return "Īii\u00A0"; break;
-            case 37: return "iiĪ\u00A0"; break;
-            case 38: return "iĪĪ\u00A0"; break;
-            case 39: return "ĪiĪ\u00A0"; break;
-            case 40: return "ĪĪĪ\u00A0"; break; //Bb 2nd Line
-            case 41: return "iii\u00A0"; break; //B
-            case 42: return "iĪi\u00A0"; break; //C
-            case 43: return "Īii\u00A0"; break; //C#
-            case 44: return "iiĪ\u00A0"; break; //D
-            case 45: return "iĪĪ\u00A0"; break; //Eb
-            case 46: return "ĪiĪ\u00A0"; break; //E
-            case 47: return "ĪĪĪ\u00A0"; break; //F
-            case 48: return "Īii\u00A0"; break; //F#
-            case 49: return "iiĪ\u00A0"; break; //G
-            case 50: return "iĪĪ\u00A0"; break; //G#
-            case 51: return "ĪiĪ\u00A0"; break; //A
-            case 52: return "ĪĪĪ\u00A0"; break; //Bb
-            case 53: return "iiĪ\u00A0"; break;
-            case 54: return "iĪĪ\u00A0"; break;
-            case 55: return "ĪiĪ\u00A0"; break;
-            case 56: return "ĪĪĪ\u00A0"; break;
-            case 57: return "iĪĪ\u00A0"; break;
-            case 58: return "ĪiĪ\u00A0"; break;
-            case 59: return "ĪĪĪ\u00A0"; break;
-            case 60: return "Īii\u00A0"; break;
-            case 61: return "iiĪ\u00A0"; break;
-            case 62: return "iĪĪ\u00A0"; break;
-            case 63: return "ĪiĪ\u00A0"; break;
-            case 64: return "ĪĪĪ\u00A0"; break;
-            case 65: return "#2 or b12"; break;
-            case 66: return "iĪĪ\u00A0"; break;
+            case 34: return "iii\u00A0"; break; //FA #
+            case 35: return "iĪi\u00A0"; break; //SOL
+            case 36: return "Īii\u00A0"; break; //Lab
+            case 37: return "≾iiĪ\u00A0"; break; //LA
+            case 38: return "iĪĪ\u00A0"; break;  //Sib
+            case 39: return "ĪiĪ\u00A0"; break;  //si
+            case 40: return "ĪĪĪ\u00A0"; break; //DO
+            case 41: return "iii≽\u00A0"; break; //DO#
+            case 42: return "iĪi≿\u00A0"; break; //Ré
+            case 43: return "Īii\u00A0"; break; //Mib
+            case 44: return "≾iiĪ\u00A0"; break; //MI
+            case 45: return "iĪĪ\u00A0"; break; //FA
+            case 46: return "ĪiĪ\u00A0"; break; //FA#
+            case 47: return "ĪĪĪ\u00A0"; break; //SOL
+            case 48: return "Īii\u00A0"; break; //Lab
+            case 49: return "≾iiĪ\u00A0"; break; //La
+            case 50: return "iĪĪ\u00A0"; break; //Sib
+            case 51: return "ĪiĪ\u00A0"; break; //Si
+            case 52: return "ĪĪĪ\u00A0"; break; //DO
+            case 53: return "iiĪ\u00A0"; break; // Do#
+            case 54: return "iĪĪ\u00A0"; break; // Ré
+            case 55: return "ĪiĪ\u00A0"; break; // Mib
+            case 56: return "ĪĪĪ\u00A0"; break; // Mi
+            case 57: return "≾iĪĪ\u00A0"; break; // Fa
+            case 58: return "ĪiĪ\u00A0"; break; // Fa#
+            case 59: return "ĪĪĪ\u00A0"; break; // Sol
+            case 60: return "Īii\u00A0"; break; // Lab
+            case 61: return "≾iiĪ\u00A0"; break; // La
+            case 62: return "iĪĪ\u00A0"; break; // Sib
+            case 63: return "ĪiĪ\u00A0"; break; // Si
+            case 64: return "ĪĪĪ\u00A0"; break; // Do
+            case 65: return "ĪiĪ\u00A0"; break; // Do#
+            case 66: return "ĪĪĪ\u00A0"; break; // Ré
 
             //case 61: return "⨪⨪Ī\u00A0"; break;
             //case 61: return "⨪⨪Ī\u00A0"; break;

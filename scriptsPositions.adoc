@@ -4,7 +4,7 @@
 
 Ces scripts sont des transformations des scripts de position écrits par Tony Babecka et autres (qu'ils soient remerciés!).
 
-Sauf qu'ici les positions des instruments à pistons sont représentés par des sigles au lieu de numéros 
+Sauf qu'ici les positions des instruments à pistons sont représentés par des sigles au lieu de numéros  (par ex: "iĪi" au lieu de 13 )
 Bien entendu on peut se référer aux scripts d'origine si on souhaite conserver le standard avec des chiffres.
 
 Les prolongations de notes sont marquées "–". Les accords (ça arrive) donnent des doigtés en colonne.
@@ -22,11 +22,12 @@ Manque un script pour les pichottes en MIb (à écrire).
 
 == pistonsTrompette
 
-Script pour trompette, cornet, bugle
+Script pour trompette, cornet, bugle . Les sigles indiquent aussi l'usage des gachettes ("trigger") par ex: "≾iiĪ" indique l'usage de 
+la première extension, "iĪi≿" de la deuxième extension (position moyenne) et "iii≽" de la deuxième extension (à fond).
 
 == pistonsBasse
 
-Script pour saxhorn baryton, basse et euphoniums
+Script pour saxhorn baryton, basse et euphoniums (pour l'instant pas d'indication sur l'usage du 4° piston... mais ça viendra)
 
 == pistonsSouba
 
@@ -43,6 +44,8 @@ Script pour afficher les positions trombone "classiques"
 == positionsTromboneFanfare
 
 Script pour afficher les positions trombone "Fanfare" 
+(il y a aussi un petit sigle pour de légers décalages supplémentaires par rapport aux positions qui restent toujours approximatives puisque
+calquées sur celles des instruments tempérés - exemple "1½≿" )
 
 == Bugs connus
 
