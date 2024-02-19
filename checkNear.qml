@@ -1,7 +1,6 @@
 //==============================================
 //  show notes constituing a 7, 7dim, or 9 chord
 //
-//  Copyright (C)2015 Jörn Eichler (heuchi)
 //  modified by sitting bugle
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -16,6 +15,11 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//  ALGO: à chaque moment on compare les notes qui sont alignées sur le même temps
+//  on classe les notes isolées et les notes d'accord (deux groupes distincts)
+//  en remontant le tableau des notes isolées on compare chaque note isolée avec les autres (celles qui n'ont pas servide pivot de comparaisons)
+//  la comparaison se fait aussi avec les notes des accords (qui ne seront pas des pivots : des notes proches dans un accord ne comptent pas)
 //==============================================
 
 import QtQuick 2.0
@@ -29,11 +33,7 @@ MuseScore {
       requiresScore: true
 
       property var colorNear: "#a06500";
-      //property var colorOctave: "#ff0050";
-      property var colorHidden: "#a03500";
 
-      property bool processAll: false;
-      property bool errorChords: false;
 
       id: checkNear
 
@@ -62,12 +62,23 @@ MuseScore {
             note2.color = color;
       }
 
+	function compareNotes(note1, note2) {
+              var cint = note1.pitch - note2.pitch;
+             var diff = Math.abs(cint) %12  ;
+             if (diff == 1 || diff == 2 || diff== 11 || diff == 10 ) {
+                      markColor(note1,note2,colorNear);
+                      return true ;
+             } else {
+                    return false ;
+             }
+        }
+
 
       onRun: {
             console.log("start")
             if (typeof curScore == 'undefined' || curScore == null) {
                   console.log("no score found");
-                  quit();
+                  Qt.quit();
             }
 
             curScore.startCmd();
@@ -76,6 +87,7 @@ MuseScore {
             var startStaff;
             var endStaff;
             var endTick;
+            var processAll ;
 
             var cursor = curScore.newCursor();
             cursor.rewind(1);
@@ -85,66 +97,35 @@ MuseScore {
                   processAll = true;
                   startStaff = 0;
                   endStaff = curScore.nstaves;
-            } else {
-                  startStaff = cursor.staffIdx;
-                  cursor.rewind(2);
-                  endStaff = cursor.staffIdx+1;
-                  endTick = cursor.tick;
-                  if(endTick == 0) {
-                        // selection includes end of score
-                        // calculate tick from last score segment
-                        endTick = curScore.lastSegment.tick + 1;
-                  }
-                  cursor.rewind(1);
-                  console.log("Selection is: Staves("+startStaff+"-"+endStaff+") Ticks("+cursor.tick+"-"+endTick+")");
-            }
+            } 
 
             // initialize data structure
-
-            var changed = [];
-            var curNote = [];
-            var prevNote = [];
-            var curRest = [];
-            var prevRest = [];
-            var curTick = [];
-            var prevTick = [];
-
             var foundNear = 0;
 
             var track;
 
-            var startTrack = startStaff * 4;
+            var startTrack = startStaff ;
             var endTrack = endStaff * 4;
 
-            for (track = startTrack; track < endTrack; track++) {
-                  curRest[track] = true;
-                  prevRest[track] = true;
-                  changed[track] = false;
-                  curNote[track] = 0;
-                  prevNote[track] = 0;
-                  curTick[track] = 0;
-                  prevTick[track] = 0;
-            }
 
             // go through all staves/voices simultaneously
 
             if(processAll) {
                   cursor.track = 0;
                   cursor.rewind(0);
-            } else {
-                  cursor.rewind(1);
             }
 
             var segment = cursor.segment;
 
-            while (segment && (processAll || segment.tick < endTick)) {
+            while (segment ) {
                   var foundOne = 0 ;
 		  var numSeg = 0 ;
                   //console.log("segment " + numSeg);
+	    	var singleNotesOnSameSegment = [] ;
+	   	 var chordsOnSameSegment = [] ;
 
                   // Pass 1: read notes
                   for (track = startTrack; track < endTrack; track++) {
-                                    curRest[track]=false;
 
                         if (segment.elementAt(track)) {
                               if (segment.elementAt(track).type == Element.CHORD) {
@@ -152,60 +133,52 @@ MuseScore {
                                     var notes = segment.elementAt(track).notes;
 
                                     if (notes.length > 1) {
-                                          console.log("found chord with more than one note!");
-                                          errorChords = true;
-                                    }
+					// add chord to chordsArray
+                                        chordsOnSameSegment.push(notes) ;
+                                         
+                                    } else {
+					// add note ot singleNotes
+                                    	var note = notes[notes.length-1];
+			                singleNotesOnSameSegment.push(note) ;
+				    }
 
 // CHANGER CODE POUR CHERCHER LES NOTES D'UN ACCORD
-                                    var note = notes[notes.length-1];
 
-                                    prevTick[track]=curTick[track];
-                                    prevRest[track]=curRest[track];
-                                    prevNote[track]=curNote[track];
-                                    curRest[track]=false;
-                                    curNote[track]=note;
-                                    curTick[track]=segment.tick;
-                                    changed[track]=true;
                               } else if (segment.elementAt(track).type == Element.REST) {
-                                    if (!curRest[track]) {
-                                          // was note
-                                          prevRest[track]=curRest[track];
-                                          prevNote[track]=curNote[track];
-                                          curRest[track]=true;
-                                          changed[track]=false; // no need to check against a rest
-                                    }
+					console.log("rest") ;
                               } else {
-                                    changed[track] = false;
+                                    console.log ("something " + segment.elementAt(track)) ;
                               }
                         } else {
-                              changed[track] = false;
+					console.log ("nothing") ;
                         }
                   }
-                  // Pass 2: find paralleles
-                  for (track=startTrack; track < endTrack; track++) {
-                        var i;
-                        // compare to other tracks
- console.log("real track " + track);
-                        if (changed[track] && (!prevRest[track])) {
-                              for (i=track; i < endTrack; i++) {
- console.log("track " + i);
-                                    if (changed[i] && (!prevRest[i])) {
-                                                var cint = curNote[track].pitch - curNote[i].pitch;
-                                                var pint = prevNote[track].pitch-prevNote[i].pitch;
-                                                var diff = Math.abs(cint) %12  ;
- console.log("curnote " + (curNote[track].pitch-18) + " " + (curNote[i].pitch-18) + "diff: " + diff);
-
-            
-                                                if (diff == 1 || diff == 2 || diff== 11 || diff == 10 ) {
-                                                       markColor(curNote[track],curNote[i],colorNear);
-                                                             foundNear++;
-                                                             foundOne++ ;
-                                                }
-
-                                    }
-                              }
+                 // NOW compare
+                  var singleNotesNumber = singleNotesOnSameSegment.length ;
+		 for(var ix= 0 ; ix < singleNotesNumber ; ix++ ) {
+                      var curNote = singleNotesOnSameSegment[ix] ;
+                      for (var iy = ix+1 ; iy < singleNotesNumber ; iy++) {
+			if (compareNotes(curNote, singleNotesOnSameSegment[iy] )) {
+                           if(foundOne == 0 ) {
+				foundNear ++ ;
+                           }
+			   foundOne ++ ;
                         }
-                  }
+                       }// single notes comparison
+                      // compare notes in chors
+                       for (var iz = 0 ; iz < chordsOnSameSegment[iz] ; iz ++) {
+                          var chord = chordOnSameSegment[iz] ;
+                           for (var idx = 0 ; ix < chord.length ;idx++) {
+				if (compareNotes(curNote, chord[idx] )) {
+                           		if(foundOne == 0 ) {
+						foundNear ++ ;
+                           		}
+			   		foundOne ++ ;
+                                }
+                            }
+                      }
+
+                 }
                   numSeg++ ;
                   segment = segment.next;
             }
@@ -214,16 +187,10 @@ MuseScore {
 
             if (foundNear == 0) {
                   msgResult.text = "No neighboring note found!\n";
-            } else if (foundNear == 1) {
-                  msgResult.text = "One neghbboring note found!\n";
             } else {
                   msgResult.text = foundNear + " neighboring notes found!\n";
             }
 
-            if (errorChords) {
-                  msgResult.text = msgResult.text +
-                  "\nError: Found Chords!\nOnly the top note of each voice is used in this plugin!\n";
-            }
 
             curScore.endCmd();
 
