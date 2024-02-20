@@ -20,11 +20,14 @@
 //  on classe les notes isolées et les notes d'accord (deux groupes distincts)
 //  en remontant le tableau des notes isolées on compare chaque note isolée avec les autres (celles qui n'ont pas servide pivot de comparaisons)
 //  la comparaison se fait aussi avec les notes des accords (qui ne seront pas des pivots : des notes proches dans un accord ne comptent pas)
+//  il ne faut opérer que sur des segment qui décrive des notes et des silences
 //==============================================
 
-import QtQuick 2.0
-import QtQuick.Dialogs 1.1
+import QtQuick 2.9
+import QtQuick.Dialogs 1.2
+import QtQuick.Controls 2.2
 import MuseScore 3.0
+
 
 MuseScore {
       menuPath: "Plugins.Proof Reading.Show neighboring notes played together"
@@ -74,12 +77,19 @@ MuseScore {
         }
 
 
+       function lmt(durationElement, numTicks) {
+		this.elem = durationElement ;
+                this.numTicks = numTicks ;
+               //durationElement.globalDuration.ticks ;
+       }
+
       onRun: {
             console.log("start")
             if (typeof curScore == 'undefined' || curScore == null) {
                   console.log("no score found");
                   Qt.quit();
             }
+	    //============================
 
             curScore.startCmd();
 
@@ -135,13 +145,16 @@ MuseScore {
 
             var segment = cursor.segment;
 
+	  var tempSingleNotesOnSameSegment = [] ;
+	   var tempChordsOnSameSegment = [] ;
             //while (segment ) {
 	     while (segment && (processAll || segment.tick < endTick)) {
                   var foundOne = 0 ;
 		  var numSeg = 0 ;
+                  var currentTick = segment.tick ;
+	    	var singleNotesOnSameSegment = tempSingleNotesOnSameSegment.slice()  ; // slice()
+	   	 var chordsOnSameSegment = tempChordsOnSameSegment.slice() ;
                   //console.log("segment " + numSeg);
-	    	var singleNotesOnSameSegment = [] ;
-	   	 var chordsOnSameSegment = [] ;
 
                   // Pass 1: read notes
                   for (track = startTrack; track < endTrack; track++) {
@@ -149,17 +162,21 @@ MuseScore {
                         if (segment.elementAt(track)) {
                               if (segment.elementAt(track).type == Element.CHORD) {
                                     // we ignore grace notes for now
-                                    var notes = segment.elementAt(track).notes;
+                                    var chord = segment.elementAt(track);
+                                    var notes = chord.notes;
+				    var tickz = chord.globalDuration.ticks 
+console.log ("tickz " + currentTick  + " " + tickz) ;
+        
 
                                     if (notes.length > 1) {
 					// add chord to chordsArray
-                                        chordsOnSameSegment.push(notes) ;
+                                        chordsOnSameSegment.push(new lmt(notes, tickz)) ;
 				        //console.log("chord " + notes + " " + notes.length ) ;
                                          
                                     } else {
 					// add note ot singleNotes
                                     	var note = notes[notes.length-1];
-			                singleNotesOnSameSegment.push(note) ;
+			                singleNotesOnSameSegment.push(new lmt(note, tickz)) ;
 				        //console.log("found " + note ) ;
 				    }
 
@@ -167,7 +184,11 @@ MuseScore {
 
                               } else if (segment.elementAt(track).type == Element.REST) {
 					console.log("rest") ;
-                              } else {
+                               
+                              } else if (segment.elementAt(track).type == Element.TUPLET) {
+					console.log("tuple") ;
+
+			      } else {
                                     //console.log ("something " + segment.elementAt(track)) ;
                               }
                         } else {
@@ -177,9 +198,9 @@ MuseScore {
                  // NOW compare
                   var singleNotesNumber = singleNotesOnSameSegment.length ;
 		 for(var ix= 0 ; ix < singleNotesNumber ; ix++ ) {
-                      var curNote = singleNotesOnSameSegment[ix] ;
+                      var curNote = singleNotesOnSameSegment[ix].elem ;
                       for (var iy = ix+1 ; iy < singleNotesNumber ; iy++) {
-			if (compareNotes(curNote, singleNotesOnSameSegment[iy] )) {
+			if (compareNotes(curNote, singleNotesOnSameSegment[iy].elem )) {
                            if(foundOne == 0 ) {
 				foundNear ++ ;
                            }
@@ -188,7 +209,7 @@ MuseScore {
                        }// single notes comparison
                       // compare notes in chors
                        for (var iz = 0 ; iz < chordsOnSameSegment.length ; iz ++) {
-                          var chord = chordsOnSameSegment[iz] ;
+                          var chord = chordsOnSameSegment[iz].elem ;
 			  console.log(" chord " + chord + " length " + chord.length) ;
                            for (var idx = 0 ; idx < chord.length ;idx++) {
 				if (compareNotes(curNote, chord[idx] )) {
@@ -202,7 +223,32 @@ MuseScore {
 
                  }
                   numSeg++ ;
-                  segment = segment.next;
+	         tempSingleNotesOnSameSegment = [] ;
+	         tempChordsOnSameSegment = [] ;
+                 var nexts = segment.next ;
+                // test if null
+                 if(nexts == null ) break ;
+                 var diffs = nexts.tick - segment.tick ;
+                 console.log (" diff " + diffs ) ;
+		for (var nx = 0 ; nx < singleNotesOnSameSegment.length ; nx++) {
+			var elemz = singleNotesOnSameSegment[nx].elem ;
+                        var ln = singleNotesOnSameSegment[nx].numTicks ;
+                        if (ln > diffs) {
+				console.log ("long note") ;
+	         		tempSingleNotesOnSameSegment.push(new lmt(elemz, ln-diffs)) ;
+                        }		
+                 }
+                 for (var nx = 0 ; nx < chordsOnSameSegment.length ; nx++) {
+			var elemz = chordsOnSameSegment[nx].elem ;
+                        var ln = chordsOnSameSegment[nx].numTicks ;
+                        if (ln > diffs) {
+				console.log ("long note") ;
+	         		tempChordsOnSameSegment.push(new lmt(elemz, ln-diffs)) ;
+                        }		
+                 }
+                 
+		// now modify
+                  segment = nexts;
             }
 
             // set result dialog
