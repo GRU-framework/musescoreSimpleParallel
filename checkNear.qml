@@ -90,6 +90,7 @@ MuseScore {
             var processAll ;
 
             var cursor = curScore.newCursor();
+            //cursor.rewind(RewindMode.SELECTION_START);
             cursor.rewind(1);
             if (!cursor.segment) {
                   // no selection
@@ -97,7 +98,20 @@ MuseScore {
                   processAll = true;
                   startStaff = 0;
                   endStaff = curScore.nstaves;
-            } 
+            } else {
+                  console.log(" selection: ");
+                  processAll = false;
+                  startStaff = cursor.staffIdx;
+                  cursor.rewind(2);
+                  //cursor.rewind(RewindMode.SELECTION_END);
+                  endStaff = cursor.staffIdx ;
+		  endTick = cursor.tick;
+                  if(endTick == 0) {
+                        // selection includes end of score
+                        // calculate tick from last score segment
+                        endTick = curScore.lastSegment.tick + 1;
+                  }
+	    }
 
             // initialize data structure
             var foundNear = 0;
@@ -108,16 +122,21 @@ MuseScore {
             var endTrack = endStaff * 4;
 
 
-            // go through all staves/voices simultaneously
 
             if(processAll) {
                   cursor.track = 0;
                   cursor.rewind(0);
-            }
+                  //cursor.rewind(RewindMode.SCORE_START);
+            } else {
+                  cursor.track = 0;
+                  cursor.rewind(1);
+                  //cursor.rewind(RewindMode.SELECTION_START);
+	    }
 
             var segment = cursor.segment;
 
-            while (segment ) {
+            //while (segment ) {
+	     while (segment && (processAll || segment.tick < endTick)) {
                   var foundOne = 0 ;
 		  var numSeg = 0 ;
                   //console.log("segment " + numSeg);
@@ -135,11 +154,13 @@ MuseScore {
                                     if (notes.length > 1) {
 					// add chord to chordsArray
                                         chordsOnSameSegment.push(notes) ;
+				        //console.log("chord " + notes + " " + notes.length ) ;
                                          
                                     } else {
 					// add note ot singleNotes
                                     	var note = notes[notes.length-1];
 			                singleNotesOnSameSegment.push(note) ;
+				        //console.log("found " + note ) ;
 				    }
 
 // CHANGER CODE POUR CHERCHER LES NOTES D'UN ACCORD
@@ -147,10 +168,10 @@ MuseScore {
                               } else if (segment.elementAt(track).type == Element.REST) {
 					console.log("rest") ;
                               } else {
-                                    console.log ("something " + segment.elementAt(track)) ;
+                                    //console.log ("something " + segment.elementAt(track)) ;
                               }
                         } else {
-					console.log ("nothing") ;
+				//	console.log ("nothing") ;
                         }
                   }
                  // NOW compare
@@ -166,9 +187,10 @@ MuseScore {
                         }
                        }// single notes comparison
                       // compare notes in chors
-                       for (var iz = 0 ; iz < chordsOnSameSegment[iz] ; iz ++) {
-                          var chord = chordOnSameSegment[iz] ;
-                           for (var idx = 0 ; ix < chord.length ;idx++) {
+                       for (var iz = 0 ; iz < chordsOnSameSegment.length ; iz ++) {
+                          var chord = chordsOnSameSegment[iz] ;
+			  console.log(" chord " + chord + " length " + chord.length) ;
+                           for (var idx = 0 ; idx < chord.length ;idx++) {
 				if (compareNotes(curNote, chord[idx] )) {
                            		if(foundOne == 0 ) {
 						foundNear ++ ;
@@ -186,9 +208,9 @@ MuseScore {
             // set result dialog
 
             if (foundNear == 0) {
-                  msgResult.text = "No neighboring note found!\n";
+                  msgResult.text = "No neighboring  found!\n";
             } else {
-                  msgResult.text = foundNear + " neighboring notes found!\n";
+                  msgResult.text = foundNear + " neighborings found!\n";
             }
 
 
