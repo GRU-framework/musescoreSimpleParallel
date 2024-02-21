@@ -155,7 +155,8 @@ MuseScore {
             //text.setProperty(StyledProperty.lyricsOddFontStyle,FontStyle.UnderLine) ;
             var notes = cursor.element.notes ;
             if (compareChords(notes, lastNotes)) {
-               text.text = "//\u00A0" ;
+               if( notes[0].tieBack == undefined ) text.text += "//\u00A0" ;
+               else text.text +=  "—" ;
                cursor.add(text) ;
                cursor.next() ;
                continue ;
