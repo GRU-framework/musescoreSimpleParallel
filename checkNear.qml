@@ -1,5 +1,5 @@
 //==============================================
-//  show notes constituing a 7, 7dim, or 9 chord
+//  show notes constituing a 7, 7aug, 9, or 9dim chord
 //
 //  modified by sitting bugle
 //
@@ -31,7 +31,7 @@ import MuseScore 3.0
 
 MuseScore {
       menuPath: "Plugins.Proof Reading.Show neighboring notes played together"
-      description: "Check for 7, 7dim, 9 chords"
+      description: "Check for 7, 7aug, 9, 9dim chords"
       version: "0.2"
       requiresScore: true
 
@@ -92,6 +92,20 @@ MuseScore {
 	    //============================
 
             curScore.startCmd();
+// tryng to find parts that have no pitched notes (drums)
+            var parts = curScore.parts ;
+            var forbidenTracks = [] ;
+	    //for( var part in parts) {
+	    for(var npart= 0 ; npart < parts.length ; npart++) {
+                var part = parts[npart] ;
+                console.log ( "part " +part.instrumentId +" startTrack " + part.startTrack + " endtrack " + part.endTrack) ;
+                if (! part.hasPitchedStaff ) {
+                   for( var numTrack = part.startTrack ; numTrack < part.endTrack ; numTrack++) {
+                      console.log ("forbiden track " + numTrack ) ;
+                       forbidenTracks.push(numTrack) ;
+                    }
+                }
+            }
 
             // find selection
             var startStaff;
@@ -158,6 +172,12 @@ MuseScore {
 
                   // Pass 1: read notes
                   for (track = startTrack; track < endTrack; track++) {
+
+                       // no drum please!
+                       if( forbidenTracks.indexOf(track) != -1) {
+		        console.log (" found forbiden " + track ) ;
+                          continue ;
+                       }
 
                         if (segment.elementAt(track)) {
                               if (segment.elementAt(track).type == Element.CHORD) {

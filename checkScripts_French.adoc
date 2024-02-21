@@ -21,7 +21,7 @@ Comme toujours: "Appuyez-vous sur vos principes ils finiront bien par céder!" (
 == checkQuint
 
 Transformation de "checkParallels" pour détecter les quintes consécutives.
-Ça ne fait que changer les notes impliquées (les messages intempestifs ont été supprimés).
+Ça ne fait que changer la couleur des notes impliquées (les messages intempestifs ont été supprimés).
 
 
 Comme pour tout principe il faut ensuite bien regarder si ce parallélisme est nocif ou pas.
@@ -54,10 +54,11 @@ Mais de temps en temps ça permet de détecter une dissonance qui n'est pas rés
 
 
 Il faudrait perfectionner ce script pour chercher d'autres accords potentiellement foireux (en tenant compte de la tonalité par ex.).
-Il faudrait améliorer le script pour qu'il examine toutes les notes des accords.
 
-Par ailleurs il y a encore des bugs qui font que la coloration des notes impliquées dans l'accord n'est pas correcte.
-
+Attention: le script a un traitement particulier pour les accords: il ne compare pas les notes d'un accord entre elles (au fond vous êtes
+censés savoir ce que vous faites quand vous écrivez un accord). Il compare les notes de l'accord avec d'autre notes "isolées"
+situées dans d'autre portées. (cela induit un comportement qui peut s'avérer gênant: on ne compare pas la composition de deux accords
+situés sur des portées différentes).
 
 == backToBlack
 
@@ -68,8 +69,5 @@ On parcours la partition pour chercher les notes qui ont été coloriées par le
 
 == Bugs connus
 
--  Les accords ne sont pas analysés!
-
-- Les parties ne comportant pas de vraies notes (batterie par ex.) sont prises en compte alors que ce ne devrait pas être le cas!
-
+Voir le problème avec les comparaisons d'accords.
 

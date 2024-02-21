@@ -45,9 +45,15 @@ This is not necessarily a default but it helps to check for some dissonances (th
 
 A more sophisticated check should:
 
-- check for some sophisticated harmonic potential dissonnances.
+- check for some sophisticated harmonic potential dissonnances. (any suggestion is welcomed).
 
-- be applied to chords (I may write something for that)
+
+Note: the script handles chords differently: if in the same chord you have notes that are potential "neighbors" the script
+does not mark these (it only compares the notes on the chord with other notes that lie in different tracks). 
+After all you know what you do when writing chords !
+The drawback is that it won't apply checks  between chords that lie in different staves.
+
+
 
 == backToBlack
 
