@@ -29,6 +29,15 @@ la première extension, "iĪi≿" de la deuxième extension (position moyenne) e
 
 Script pour saxhorn baryton, basse et euphoniums (pour l'instant pas d'indication sur l'usage du 4° piston... mais ça viendra)
 
+== pistonsBaryton
+
+Même chose que précédent mais ici les répétitions de notes sont marquées "//". 
+A utiliser pour une partie où il y a beaucoup de contre-temps avec répétitions.
+
+== pistonsPichotte
+
+Même chose que pour les barytons mais pour des altos en Mib.
+
 == pistonsSouba
 
 Script pour les contre-basses (souba, hélicon, tubas divers)
