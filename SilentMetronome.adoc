@@ -1,6 +1,6 @@
 = Silent Metronome
 
-Just adds rests to the current Staff (beware : for the moment does not operates on selection. So operates only on first staff of the page).
+Just adds rests to the current Staff.
 
 The rests lie on voice 4 and help visualise the tempo.
 
