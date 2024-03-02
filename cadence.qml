@@ -51,24 +51,13 @@ MuseScore {
                 this.numTicks = numTicks ;
                //durationElement.globalDuration.ticks ;
        }
-      property var durations:
-     {
-    1: [1, 16], 
-    2: [1, 8],
-    3: [3, 16], 
-    4: [1, 4],
-    5: [5, 16], 
-    6: [3, 8], 
-    7: [7, 16], 
-    8: [1, 2]
-    }
 
   //function setDurationAndRests(cursor, numberOf16ths, numRests)
-  function setDurationAndRests(cursorA, tsN, tsD)
+  function setDurationAndRests(cursorA, curTrack ,tsN, tsD)
   {
-   console.log( "Ts N " + tsN ) ;
+   console.log( "Ts N " + tsN + "track " + curTrack ) ;
     if (tsN == 0) return;
-    cursorA.track = 3;
+    cursorA.track = curTrack+3 ;
     for(var num = 0 ; num < tsN; num++) {
       var tickA = cursorA.tick ;
       console.log("TIck A " + tickA + "tsN " + tsN + " TsD " + tsD + " Num " + num) ;
@@ -96,7 +85,6 @@ MuseScore {
 
             // find selection
             var startStaff;
-            var endStaff;
             var endTick;
             var processAll ;
 
@@ -108,14 +96,12 @@ MuseScore {
                   console.log("no selection: processing whole score");
                   processAll = true;
                   startStaff = 0;
-                  endStaff = curScore.nstaves;
             } else {
                   console.log(" selection: ");
                   processAll = false;
                   startStaff = cursor.staffIdx;
                   cursor.rewind(2);
                   //cursor.rewind(RewindMode.SELECTION_END);
-                  endStaff = cursor.staffIdx ;
 		  endTick = cursor.tick;
                   if(endTick == 0) {
                         // selection includes end of score
@@ -128,17 +114,20 @@ MuseScore {
 
             var track;
 
-            var startTrack = startStaff ;
-            var endTrack = endStaff * 4;
+            var startTrack  ;
 
 
 	if(processAll) {
-                  cursor.track = 0;
+                  //cursor.track = 0;
+                  //cursor.track = startTrack;
                   cursor.rewind(0);
+                  startTrack = cursor.track ;
                   //cursor.rewind(RewindMode.SCORE_START);
             } else {
-                  cursor.track = 0;
+                  //cursor.track = 0;
+                  //cursor.track = startTrack;
                   cursor.rewind(1);
+                  startTrack = cursor.track ;
                   //cursor.rewind(RewindMode.SELECTION_START);
 	    }
            var no = 1;
@@ -147,14 +136,15 @@ MuseScore {
                         var segment = m.firstSegment;
 			if(segment == undefined ) continue ;
 			var tick = segment.tick;
+                        if (tick >= endTick) break ;
 			var tsD = m.timesigActual.denominator;
 			var tsN = m.timesigActual.numerator;
 			var ticksB = division * 4.0 / tsD;
 			var ticksM = ticksB * tsN ;
                         console.log(tsN + "/" + tsD + " measure " + no +
 			    " at tick " + tick + " length " + ticksM);
-                        cursor.track = 3;
-                        setDurationAndRests(cursor, tsN, tsD) ;
+                        cursor.track = startTrack+ 3;
+                        setDurationAndRests(cursor, startTrack, tsN, tsD) ;
                          // boucle selon denominator
                          // créer un element de type Chord ElementType_CHORD
                          //  mettre la durée
@@ -162,7 +152,7 @@ MuseScore {
                          //  ajouter au curseur
 
                         no++ ;
-                        cursor.track = 0;
+                        cursor.track = startTrack;
                         cursor.rewindToTick(tick) ;
                         cursor.nextMeasure();
 	}
